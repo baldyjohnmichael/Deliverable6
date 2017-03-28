@@ -5,8 +5,10 @@
  */
 package com.csci360.alarmclock;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 /**
  *
@@ -18,19 +20,16 @@ public class Alarm {
     //if false play radio
     //if true play default alarm
     private Boolean playStockAlert = true;
+    Calendar currentTime;
     
     
-    private String getCurrentTime(){
-        LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("hh:mm a");
-        String text = currentTime.format(format);
-        return text;
+    public Calendar getTime() {
+        return currentTime;
     }
-    // Time must be in the following format 
-    // H:M A 
-    // Where H is any int between 1 & 12 inclusive
-    // Where M is any int between 0 & 59
-    // Where A is either AM or PM
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(currentTime.getTime());
+    }
     
     
     public String getTimeOfAlarm(){
@@ -38,12 +37,9 @@ public class Alarm {
     }
     
     public void setTimeOfAlarm(String t){
-        if(isValidTime(t)){
-            this.timeOfAlarm = t;
-        }
-        else
-            System.out.println("Incorrect Time Format");
         
+            this.timeOfAlarm = t;
+       
     }
     
     public Boolean willPlayAlarm(){
@@ -55,33 +51,14 @@ public class Alarm {
     }
     
     public Boolean shouldSoundAlert(){
-       return timeOfAlarm.equals(getCurrentTime());
+       return playStockAlert;
     }
     
     public void soundAlert() {
         System.out.println("Wake me up inside");
     }
     
-    public Boolean isValidTime(String time){
-        String delims = "[: ]";
-        String[] toke = time.split(delims);
-        int h = Integer.parseInt(toke[0]);
-        int m = Integer.parseInt(toke[2]);
-        String a = toke[4];
-        
-        if((h>12)||(h<1)){
-            return false;
-        }
-        else if((m>59)||(m<0)){
-            return false;
-        }
-        else if( !a.equals("AM")||!a.equals("PM")){
-            return false;
-        }
-        return true;
-        
-         
-   }
+
        public static void main(String[] args) {
         
         //String dateOut;
